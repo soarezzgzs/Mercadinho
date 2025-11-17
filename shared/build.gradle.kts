@@ -18,6 +18,20 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    // Gera o framework para cada arquitetura
+    binaries {
+        framework {
+            baseName = "shared"
+        }
+    }
+
+    // Agrupa os frameworks em um único XCFramework
+    xcFramework {
+        add(framework("iosX64"))
+        add(framework("iosArm64"))
+        add(framework("iosSimulatorArm64"))
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
