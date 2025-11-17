@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose") // necessário para Compose Multiplatform com Kotlin 2.0+
+    id("org.jetbrains.kotlin.native.cocoapods") // necessário para gerar XCFramework
 }
 
 kotlin {
@@ -18,18 +19,14 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    // Gera o framework para cada arquitetura
-    binaries {
+    cocoapods {
+        summary = "Shared module for Mercadinho"
+        homepage = "https://github.com/soarezzgzs/Mercadinho"
+        ios.deploymentTarget = "14.1"
         framework {
             baseName = "shared"
+            isStatic = false
         }
-    }
-
-    // Agrupa os frameworks em um único XCFramework
-    xcFramework {
-        add(framework("iosX64"))
-        add(framework("iosArm64"))
-        add(framework("iosSimulatorArm64"))
     }
 
     sourceSets {
@@ -64,8 +61,12 @@ kotlin {
                 implementation("androidx.test.espresso:espresso-core:3.5.1")
             }
         }
-        val iosMain by sourceSets.creating
-        val iosTest by sourceSets.creating
+        val iosMain by creating {
+            dependsOn(commonMain)
+        }
+        val iosTest by creating {
+            dependsOn(commonTest)
+        }
     }
 }
 
