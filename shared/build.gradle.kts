@@ -2,8 +2,8 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose") // necessário para Compose Multiplatform com Kotlin 2.0+
-    id("org.jetbrains.kotlin.native.cocoapods") // necessário para gerar XCFramework
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.native.cocoapods") // habilita geração de XCFramework
 }
 
 kotlin {
