@@ -1,0 +1,32 @@
+name: Build XCFramework
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-ios-framework:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Rodar assembleXCFramework
+        run: ./gradlew :shared:assembleXCFramework
+
+      - name: Upload do XCFramework como artefato
+        uses: actions/upload-artifact@v3
+        with:
+          name: shared-xcframework
+          path: shared/build/XCFrameworks/**/shared.xcframework
