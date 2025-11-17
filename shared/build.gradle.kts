@@ -3,17 +3,11 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.native.cocoapods") // habilita geração de XCFramework
+    id("org.jetbrains.kotlin.native.cocoapods") // necessário para gerar XCFramework
 }
 
 kotlin {
-    explicitApi()
-
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-        }
-    }
+    androidTarget()
 
     iosX64()
     iosArm64()
@@ -25,7 +19,6 @@ kotlin {
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "shared"
-            isStatic = false
         }
     }
 
@@ -60,12 +53,6 @@ kotlin {
                 implementation("androidx.test.ext:junit:1.1.5")
                 implementation("androidx.test.espresso:espresso-core:3.5.1")
             }
-        }
-        val iosMain by creating {
-            dependsOn(commonMain)
-        }
-        val iosTest by creating {
-            dependsOn(commonTest)
         }
     }
 }
